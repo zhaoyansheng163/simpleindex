@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我的导航站点</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            backdrop-filter: blur(10px);
+        }
+        
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-size: 2.5rem;
+            background: linear-gradient(90deg, #3498db, #8e44ad);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .subtitle {
+            color: #7f8c8d;
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+        }
+        
+        .search-box {
+            margin: 20px auto;
+            max-width: 500px;
+            position: relative;
+        }
+        
+        .search-box input {
+            width: 100%;
+            padding: 15px 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 50px;
+            font-size: 16px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            background: white;
+        }
+        
+        .search-box input:focus {
+            outline: none;
+            border-color: #3498db;
+            box-shadow: 0 5px 20px rgba(52, 152, 219, 0.3);
+        }
+        
+        .search-box::after {
+            content: "🔍";
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 18px;
+            color: #7f8c8d;
+        }
+        
+        .categories {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+        
+        .category {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+        
+        .category:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+        }
+        
+        .category h2 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #3498db;
+            font-size: 1.5rem;
+        }
+        
+        .links {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 15px;
+            list-style: none;
+        }
+        
+        .links li {
+            display: flex;
+        }
+        
+        .links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex: 1;
+            padding: 18px 10px;
+            background: white;
+            border-radius: 10px;
+            color: #333;
+            text-decoration: none;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 1px solid #e9ecef;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            font-weight: 500;
+            font-size: 16px;
+        }
+        
+        .links a:hover {
+            background: #f8f9fa;
+            border-color: #3498db;
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(52, 152, 219, 0.2);
+            color: #3498db;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 14px;
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 1200px) {
+            .links {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+        
+        @media (max-width: 992px) {
+            .links {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .links {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .links {
+                grid-template-columns: 1fr;
+            }
+            
+            .category {
+                padding: 15px;
+            }
+        }
+        
+        .no-results {
+            text-align: center;
+            padding: 40px;
+            color: #7f8c8d;
+            font-size: 1.2rem;
+            grid-column: 1 / -1;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="搜索网站名称或网址...">
+            </div>
+        </header>
+        
+        <main id="categoriesContainer">
+            <!-- 分类和链接将通过JavaScript动态生成 -->
+        </main>
+        
+        <footer>
+            <p>© 2023 我的导航站点 - 可直接在浏览器中打开使用</p>
+        </footer>
+    </div>
+
+    <!-- 导航数据 -->
+    <script>
+        // 导航数据 - 非技术人员可以修改这部分内容
+        const navData = {
+            "搜索引擎": [
+                {"name": "百度", "url": "https://www.baidu.com"},
+                {"name": "谷歌", "url": "https://www.google.com"},
+                {"name": "必应", "url": "https://www.bing.com"},
+                {"name": "搜狗", "url": "https://www.sogou.com"},
+                {"name": "360搜索", "url": "https://www.so.com"},
+                {"name": "神马搜索", "url": "https://m.sm.cn"}
+            ],
+            "社交媒体": [
+                {"name": "微信", "url": "https://weixin.qq.com"},
+                {"name": "微博", "url": "https://weibo.com"},
+                {"name": "知乎", "url": "https://www.zhihu.com"},
+                {"name": "抖音", "url": "https://www.douyin.com"},
+                {"name": "B站", "url": "https://www.bilibili.com"}
+            ],
+            "新闻资讯": [
+                {"name": "新浪新闻", "url": "https://news.sina.com.cn"},
+                {"name": "腾讯新闻", "url": "https://news.qq.com"},
+                {"name": "网易新闻", "url": "https://news.163.com"},
+                {"name": "搜狐新闻", "url": "https://news.sohu.com"}
+            ],
+            "技术社区": [
+                {"name": "GitHub", "url": "https://github.com"},
+                {"name": "Stack Overflow", "url": "https://stackoverflow.com"},
+                {"name": "CSDN", "url": "https://www.csdn.net"},
+                {"name": "掘金", "url": "https://juejin.cn"},
+                {"name": "InfoQ", "url": "https://www.infoq.cn"},
+                {"name": "开源中国", "url": "https://www.oschina.net"}
+            ],
+            "学习资源": [
+                {"name": "Coursera", "url": "https://www.coursera.org"},
+                {"name": "edX", "url": "https://www.edx.org"},
+                {"name": "慕课网", "url": "https://www.imooc.com"},
+                {"name": "网易云课堂", "url": "https://study.163.com"},
+                {"name": "腾讯课堂", "url": "https://ke.qq.com"}
+            ],
+            "生活服务": [
+                {"name": "淘宝", "url": "https://www.taobao.com"},
+                {"name": "京东", "url": "https://www.jd.com"},
+                {"name": "美团", "url": "https://www.meituan.com"},
+                {"name": "饿了么", "url": "https://www.ele.me"},
+                {"name": "携程", "url": "https://www.ctrip.com"},
+                {"name": "12306", "url": "https://www.12306.cn"}
+            ]
+        };
+
+        // 页面加载完成后生成导航内容
+        document.addEventListener('DOMContentLoaded', function() {
+            const container = document.getElementById('categoriesContainer');
+            const searchInput = document.getElementById('searchInput');
+            
+            // 生成导航内容
+            function generateNavigation(data) {
+                container.innerHTML = '';
+                
+                if (Object.keys(data).length === 0) {
+                    const noResults = document.createElement('div');
+                    noResults.className = 'no-results';
+                    noResults.textContent = '没有找到匹配的网站';
+                    container.appendChild(noResults);
+                    return;
+                }
+                
+                for (const [category, links] of Object.entries(data)) {
+                    const categoryElement = document.createElement('div');
+                    categoryElement.className = 'category';
+                    
+                    const categoryTitle = document.createElement('h2');
+                    categoryTitle.textContent = category;
+                    categoryElement.appendChild(categoryTitle);
+                    
+                    const linksList = document.createElement('ul');
+                    linksList.className = 'links';
+                    
+                    links.forEach(link => {
+                        const listItem = document.createElement('li');
+                        const anchor = document.createElement('a');
+                        anchor.href = link.url;
+                        anchor.textContent = link.name;
+                        anchor.target = '_blank';
+                        listItem.appendChild(anchor);
+                        linksList.appendChild(listItem);
+                    });
+                    
+                    categoryElement.appendChild(linksList);
+                    container.appendChild(categoryElement);
+                }
+            }
+            
+            // 初始生成导航
+            generateNavigation(navData);
+            
+            // 搜索功能
+            searchInput.addEventListener('input', function() {
+                const searchTerm = this.value.toLowerCase().trim();
+                
+                if (searchTerm === '') {
+                    generateNavigation(navData);
+                    return;
+                }
+                
+                const filteredData = {};
+                
+                for (const [category, links] of Object.entries(navData)) {
+                    const filteredLinks = links.filter(link => 
+                        link.name.toLowerCase().includes(searchTerm) || 
+                        link.url.toLowerCase().includes(searchTerm)
+                    );
+                    
+                    if (filteredLinks.length > 0) {
+                        filteredData[category] = filteredLinks;
+                    }
+                }
+                
+                generateNavigation(filteredData);
+            });
+        });
+    </script>
+</body>
+</html>
