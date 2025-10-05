@@ -10,4 +10,4 @@
 
 
 演示网站2 截图  
-![图片描述](docs/index1.png)
+![图片描述](docs/index2.png)
